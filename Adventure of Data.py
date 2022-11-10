@@ -126,9 +126,9 @@ def draw_stats(level):
     text_image(f'{enemies[level].name}', red, 800, 15)
     text_image(f'HP: {enemies[level].hp}', red, 850, 55)
 
-
-def Combat(level, current_fighter, action_1, action_2):
-    if Hero.hp > 0 and enemies[level].hp > 0:
+#combat function, 
+def Combat(level, current_fighter, action_1, action_2): 
+    if Hero.hp > 0 and enemies[level].hp > 0: #checks if Hero is alive and 
         if current_fighter:
             action = mouse_collision(action_1, action_2)
             if action:
@@ -136,8 +136,8 @@ def Combat(level, current_fighter, action_1, action_2):
                     slider(level, WIN, enemies)
                     return "switch"
                 if action == "action_2":
-                    Hero.hp = Hero.max_hp
-                    enemies[level].hp = enemies[level].max_hp
+                    Hero.hp = Hero.max_hp #reset hp
+                    enemies[level].hp = enemies[level].max_hp # Reset hp
                     return "run"
         else:
             Hero.hp -= random.randint(5, 10)
@@ -157,7 +157,7 @@ def Combat(level, current_fighter, action_1, action_2):
 def game(level, score):
     run = True
     enemies_health_bar = hp_bar(550, 100, enemies[level].hp, enemies[level].max_hp)
-    current_fighter = 1
+    current_fighter = True 
     action_1 = False
     action_2 = False
 
@@ -175,30 +175,30 @@ def game(level, score):
         enemies_health_bar.draw_hp(enemies[level].hp, WIN)
         Hero_health_bar.draw_hp(Hero.hp, WIN)
         combat = Combat(level, current_fighter, action_1, action_2)
-
-        if combat == "switch" and current_fighter:
+        #Below we see different scenarios for the combat function.
+        if combat == "switch" and current_fighter: #Switches to false if current_fighter == True
             current_fighter = False
-        elif combat == "switch":
+        elif combat == "switch": #Switches to True if current_fighter == False
             current_fighter = True
-
-        if combat == "run":
+        #All if statement below leaves game by setting run as false.
+        if combat == "run": 
             run = False
             hub(score)
-            Hero.hp = Hero.max_hp
-        if combat == "Win" and level == 0:
+        if combat == "Win" and level == 0: #Level 0, goes to Hub with score 10
             run = False
             hub("10")
 
-        if combat == "Win" and level == 1:
+        if combat == "Win" and level == 1: #Level 1, goes to hub with score 20, changes background and level.
             run = False
             hub("20")
 
-        if combat == "Win" and level == 2:
+        if combat == "Win" and level == 2: #Level 2 win goes to hub "winner which displays a winner background.
             run = False
             hub("WINNER")
 
-        if combat == "Dead":
+        if combat == "Dead": # goes out of combat.
             run = False
+            #Reset to middle of the screen
             display_scroll[0] = 0
             display_scroll[1] = 0
             hub(score)
