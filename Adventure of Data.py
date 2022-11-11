@@ -120,13 +120,13 @@ def draw_bg(level):
     WIN.blit(pygame.transform.scale(background[level], (1000, 600)), (0, 0))
 
 
-def draw_stats(level):
-    text_image(f'{Hero.name}', green, 150, 50)
-    text_image(f'HP: {Hero.hp}', green, 150, 100)
+def draw_stats(level): #displays hp as a number and also character names
+    text_image(f'{Hero.name}', green, 150, 50) # name
+    text_image(f'HP: {Hero.hp}', green, 150, 100) # hp
     text_image(f'{enemies[level].name}', red, 800, 15)
     text_image(f'HP: {enemies[level].hp}', red, 850, 55)
 
-#combat function, 
+#combat function, used when entering each room
 def Combat(level, current_fighter, action_1, action_2): 
     if Hero.hp > 0 and enemies[level].hp > 0: #checks if Hero is alive and 
         if current_fighter:
@@ -143,12 +143,12 @@ def Combat(level, current_fighter, action_1, action_2):
             Hero.hp -= random.randint(5, 10)
             return "switch"
 
-    if Hero.hp <= 0:
-        Hero.hp = Hero.max_hp
-        enemies[level].hp = enemies[level].max_hp
+    if Hero.hp <= 0: # if hero dies 
+        Hero.hp = Hero.max_hp #reset hp of hero
+        enemies[level].hp = enemies[level].max_hp #reset hp of enemy
         return "Dead"
 
-    if enemies[level].hp <= 0:
+    if enemies[level].hp <= 0: # if enemy dies
         Hero.hp = Hero.max_hp
         enemies[level].hp = enemies[level].max_hp
         return "Win"
@@ -156,7 +156,7 @@ def Combat(level, current_fighter, action_1, action_2):
 
 def game(level, score):
     run = True
-    enemies_health_bar = hp_bar(550, 100, enemies[level].hp, enemies[level].max_hp)
+    enemies_health_bar = hp_bar(550, 100, enemies[level].hp, enemies[level].max_hp) #decides which enemy to face.
     current_fighter = True 
     action_1 = False
     action_2 = False
@@ -169,12 +169,16 @@ def game(level, score):
 
         # draw background
         draw_bg(level)
+        
         # Draws stats
         draw_stats(level)
+        
         # draws health-bar
         enemies_health_bar.draw_hp(enemies[level].hp, WIN)
         Hero_health_bar.draw_hp(Hero.hp, WIN)
+        
         combat = Combat(level, current_fighter, action_1, action_2)
+        
         #Below we see different scenarios for the combat function.
         if combat == "switch" and current_fighter: #Switches to false if current_fighter == True
             current_fighter = False
@@ -201,7 +205,7 @@ def game(level, score):
             #Reset to middle of the screen
             display_scroll[0] = 0
             display_scroll[1] = 0
-            hub(score)
+            hub(score) #reset back to hub on the same level
         pygame.display.update()
 
 
